@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="css/project.dependencies.min.css">
+<link rel="stylesheet" href="css/myproject.min.css">
+
+<script type="text/javascript" src="js/project.dependencies.min.js"></script>
+<script type="text/javascript" src="js/myproject.min.js"></script>
+
+<body ng-app="myApp">
+
+	<div ng-controller="myController">
+	 
+	<p>Input something in the input box:</p>
+	<p>Name: <input type="text" ng-model="name"></p>
+	<p ng-bind="name"></p>
+
+	<button type="button" class="btn btn-default">Default</button>
+	<button type="button" class="btn btn-primary">Primary</button>
+	<button type="button" class="btn btn-success">Success</button>
+	<button type="button" class="btn btn-info">Info</button>
+	<button type="button" class="btn btn-warning">Warning</button>
+	<button type="button" class="btn btn-danger">Danger</button>
+
+	<div id="jsTreeDemo"></div>
+
+	</div>
+
+</body>
+</html>
