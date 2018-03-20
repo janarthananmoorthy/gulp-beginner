@@ -1,10 +1,10 @@
 # Gulp + Jquery + Bootstrap + JSTree + Angular
 
 ## Pre-conditions
-** Install node.js
-** node: **v8.10.0**
-** npm: **5.6.0**
-** Install gulp globally **(npm install -g gulp)**
+* Install node.js
+* node: **v8.10.0**
+* npm: **5.6.0**
+* Install gulp globally **(npm install -g gulp)**
 
 ## Basic Angular-Gulp project
 
