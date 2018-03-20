@@ -4,5 +4,5 @@ angular.module('myApp')
 myController.$inject = ['$scope'];
 
 function myController($scope) {
-    $scope.name = "Hello!";
+    $scope.name = "Welcome!";
 }

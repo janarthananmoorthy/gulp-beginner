@@ -10,7 +10,22 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'),
     clean = require('gulp-clean'),
     karma = require('karma').Server,
+    open = require('gulp-open'),
+    connect = require('gulp-connect')
     runSeq = require('run-sequence');
+
+gulp.task('open', function(){
+    gulp.src('dist/index.html')
+        .pipe(open({uri: 'http://localhost:8001/'}));
+});
+
+gulp.task('connect', function () {
+    connect.server({
+        root: 'dist',
+        port: 8001,
+        livereload: true
+    });
+});
 
 
 gulp.task('test', function(done) {
@@ -27,7 +42,7 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
     
-gulp.task('scripts', function() {
+gulp.task('scripts:dependencies', function() {
     gulp.src([
         'node_modules/jquery/dist/jquery.js', // if you need jquery, use "npm install jquery"
         'node_modules/bootstrap/dist/js/bootstrap.js', // if you need bootstrap, use "npm install bootstrap"
@@ -40,7 +55,9 @@ gulp.task('scripts', function() {
         .pipe(rename({suffix: '.min'})) // renaming file to myproject.min.js
         .pipe(header('/*! <%= pkg.name %> <%= pkg.version %> */\n', {pkg: pkg} )) // banner with version and name of package
         .pipe(gulp.dest('./dist/js/')) // save file to destination directory
+});
 
+gulp.task('scripts', function() {
     gulp.src([
         'src/js/app.js',
         'src/js/jstree.js',
@@ -49,9 +66,10 @@ gulp.task('scripts', function() {
         .pipe(concat('myproject.js'))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('./dist/js'))
+        .pipe(connect.reload());
 });
 
-gulp.task('styles', function() {
+gulp.task('styles:dependencies', function() {
     gulp.src([
         'node_modules/bootstrap/dist/css/bootstrap.css', // example with installed bootstrap package
         'node_modules/bootstrap/dist/css/bootstrap-theme.css', // example with installed bootstrap package
@@ -62,11 +80,14 @@ gulp.task('styles', function() {
         .pipe(rename({suffix: '.min'})) // renaming file to myproject.min.css
         .pipe(header('/*! <%= pkg.name %> <%= pkg.version %> */\n', {pkg: pkg} )) // making banner with version and name of package
         .pipe(gulp.dest('./dist/css/')) // saving file myproject.min.css to this directory
+});
 
+gulp.task('styles', function() {
     gulp.src('src/css/**/*.css')
         .pipe(concat('myproject.css'))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('./dist/css/'))
+        .pipe(connect.reload());
 });
 
 gulp.task('jstree:fonts', function() {
@@ -86,19 +107,24 @@ gulp.task('index', function() {
         .pipe(gulp.dest('./dist'))
 });
 
-gulp.task('watcher', function() {
-    gulp.src('src/js/**/*.js')
-        .pipe(watch('src/js/**/*.js', function(event) { // if changed any file in "src/js" (recursively)
-            gulp.run('scripts'); // run task "scripts"
-        }));
-    gulp.src('src/css/**/*.css')
-        .pipe(watch('src/css/**/*.css', function(event) {
-            gulp.run('styles');
-        }));
-});
+// gulp.task('watcher', function() {
+//     gulp.src('src/js/**/*.js')
+//         .pipe(watch('src/js/**/*.js', function(event) { // if changed any file in "src/js" (recursively)
+//             gulp.run('scripts'); // run task "scripts"
+//         }));
+//     gulp.src('src/css/**/*.css')
+//         .pipe(watch('src/css/**/*.css', function(event) {
+//             gulp.run('styles');
+//         }));
+// });
 
 gulp.task('default', function() {
-    runSeq('clean', 'scripts', 'styles', 'jstree:fonts', 'index');
+    runSeq('clean', 'scripts:dependencies', 'scripts', 'styles:dependencies', 'styles', 'jstree:fonts', 'index', 'connect', 'watch');
 });
 
-gulp.task('watch', ['watcher']); // start watcher task "gulp watch"
+// gulp.task('watch', ['watcher']); // start watcher task "gulp watch"
+
+gulp.task('watch', function () {
+    gulp.watch('src/js/**/*.js', ['scripts']);
+    gulp.watch('src/css/**/*.css', ['styles']);
+});
