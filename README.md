@@ -1,4 +1,4 @@
-# Gulp + Jquery + Bootstrap + JSTree + Angular
+# Gulp + Jquery + Bootstrap + JSTree + Angular + Karma
 
 ## Pre-conditions
 * Install node.js
@@ -55,4 +55,5 @@ test
 └── unit
     └── contorller.spec.js
 ```
-Note: If you are using `ngRoute` don't forgot to add `beforeEach(angular.mock.module('ngRoute'));`
+**Note:** If you are using `ngRoute` don't forgot to add `beforeEach(angular.mock.module('ngRoute'));`<br />
+**Reference:** [https://docs.angularjs.org/guide/unit-testing](https://docs.angularjs.org/guide/unit-testing)
