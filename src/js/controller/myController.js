@@ -1,7 +1,8 @@
-app.controller('myController', myController);
+angular.module('myApp')
+		.controller('myController', myController);
 
 myController.$inject = ['$scope'];
 
 function myController($scope) {
-    $scope.name = "hello!";
+    $scope.name = "Hello!";
 }

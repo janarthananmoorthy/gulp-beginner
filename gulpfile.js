@@ -9,7 +9,18 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     watch = require('gulp-watch'),
     clean = require('gulp-clean'),
+    karma = require('karma').Server,
     runSeq = require('run-sequence');
+
+
+gulp.task('test', function(done) {
+    return karma.start({
+      configFile:  __dirname + '/test/config/karma.conf.js',
+      singleRun: true
+    }, function() {
+        done();
+    });
+});
 
 gulp.task('clean', function () {
     return gulp.src('./dist', {read: false})
@@ -21,7 +32,8 @@ gulp.task('scripts', function() {
         'node_modules/jquery/dist/jquery.js', // if you need jquery, use "npm install jquery"
         'node_modules/bootstrap/dist/js/bootstrap.js', // if you need bootstrap, use "npm install bootstrap"
         'node_modules/jstree/dist/jstree.js',
-        'node_modules/angular/angular.js'
+        'node_modules/angular/angular.js',
+        'node_modules/angular-route/angular-route.js'
         ])
         .pipe(concat('project.dependencies.js')) // cancatenation to file myproject.js
         .pipe(uglify()) // uglifying this file
@@ -31,7 +43,8 @@ gulp.task('scripts', function() {
 
     gulp.src([
         'src/js/app.js',
-        'src/js/**/*.js'
+        'src/js/jstree.js',
+        'src/js/controller/myController.js'
         ])
         .pipe(concat('myproject.js'))
         .pipe(rename({suffix: '.min'}))
@@ -65,6 +78,9 @@ gulp.task('jstree:fonts', function() {
 });
 
 gulp.task('index', function() {
+    // gulp.src('src/partials/**/*.html')
+    //     .pipe(gulp.dest('./dist/partials'))
+        
     gulp.src('_index.html')
         .pipe(concat('index.html'))
         .pipe(gulp.dest('./dist'))
