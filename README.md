@@ -36,13 +36,15 @@
 ## Karma Test Cases
 
 1. Add below dev dependencies
-```npm install angular-mocks --save-dev
+```
+npm install angular-mocks --save-dev
 npm install karma --save-dev
 npm install gulp-karma --save-dev
 npm install jasmine-core --save-dev
 npm install karma-phantomjs-launcher --save-dev
 npm install karma-jasmine --save-dev
-npm install karma-coverage --save-dev```
+npm install karma-coverage --save-dev
+```
 
 2. Add `karma.conf.js` and `controller.spec.js` files
 ```
